@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            margin-bottom: 20px;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-custom {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">LearnwithAVC</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="post">New Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="comments">Comments</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{logout}" class="nav-link">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Comments Table -->
+    <div class="table-container">
+        <div th:if="${listOfComments != null and not #lists.isEmpty(listOfComments)}">
+            <h3 class="text-center">Comments Details</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Comment</th>
+                        <th>Posted On</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="comment : ${listOfComments}">
+                        <td th:text="${comment.name}"></td>
+                        <td th:text="${comment.content}"></td>
+                        <td th:text="${comment.postedOn}"></td>
+                        <td>
+                            <a th:href="@{deleteComment(id=${comment.id})}">
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${listOfComments == null or #lists.isEmpty(listOfComments)}">
+            <p>No comments available.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

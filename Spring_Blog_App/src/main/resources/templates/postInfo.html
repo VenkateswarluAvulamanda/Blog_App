@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional: Custom Styles -->
+    <style>
+        .post-card {
+            margin-bottom: 20px;
+        }
+        .comment-card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+    <!-- Post Details Section -->
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <div th:if="${post != null}" class="card post-card">
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${post.title ?: 'No Title'}"></h3>
+                    <p class="text-muted" th:text="${post.createdOn ?: 'No Date'}"></p>
+                    <p th:text="${post.description ?: 'No Description'}"></p>
+                    <div th:utext="${post.content ?: 'No Content'}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h3>Comments</h3>
+            <div th:if="${listOfComments != null and not #lists.isEmpty(listOfComments)}">
+                <div th:each="comments : ${listOfComments}" class="card comment-card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${comments.name}"></h5>
+                        <p class="text-muted" th:text="${comments.postedOn}"></p>
+                        <p th:text="${comments.content}"></p>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${listOfComments == null or #lists.isEmpty(listOfComments)}">
+                <p>No comments available yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comment Form Section -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h3>Leave a Comment</h3>
+            <div th:if="${not #strings.isEmpty(msg)}" class="alert alert-info" th:text="${msg}"></div>
+            
+            <form th:action="@{postComment}" th:object="${comment}" method="POST" class="mt-3">
+                <!-- Hidden Post ID -->
+                <input type="hidden" name="id" th:value="${post.id}"/>
+
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Enter your name" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="Enter your email" required>
+                </div>
+
+                <!-- Comment Field -->
+                <div class="form-group">
+                    <label for="content">Comment</label>
+                    <textarea class="form-control" th:field="*{content}" id="content" rows="4" placeholder="Write your comment" required></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .navbar {
+            margin-bottom: 30px;
+        }
+        .table-container {
+            margin-top: 20px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-brand">LearnwithAVC</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <span class="nav-link">Posts</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{post}">New Post</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{comments}">Comments</a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{logout}" class="nav-link">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+	
+    <!-- Posts Table -->
+    <div class="table-container">
+        <div th:if="${listOfPosts != null and not #lists.isEmpty(listOfPosts)}">
+            <h3 class="text-center">Posts Details</h3>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Posted On</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post : ${listOfPosts}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.title}"></td>
+                        <td th:text="${post.description}"></td>
+                        <td th:text="${post.createdOn}"></td>
+                        <td>
+                            <div class="actions">
+                                <!-- Add buttons for edit, delete actions -->
+                                <a class="btn btn-warning btn-sm" th:href="@{/editPost(id=${post.id})}">Edit</a>
+                                <a class="btn btn-danger btn-sm" th:href="@{/deletePost(id=${post.id})}">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${listOfPosts == null or #lists.isEmpty(listOfPosts)}">
+            <p>No posts available</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            margin-top: 100px;
+        }
+        .form-container .card {
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-container h3 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body class="container-fluid">
+    <div class="row justify-content-center form-container">
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <h3 class="text-center">Login Form</h3>
+
+                <!-- Success or Error Message -->
+                <div th:if="${not #strings.isEmpty(msg)}" class="alert alert-info" th:text="${msg}"></div>
+
+                <form th:action="@{login}" th:object="${login}" method="POST">
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" th:field="*{pazzword}" id="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    
+                    <!-- Register Link -->
+                    <p class="text-center mt-3">Not registered? <a th:href="@{register}">Register Here</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
